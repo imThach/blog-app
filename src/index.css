@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Geist', 'Geist Fallback', sans-serif;
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased;
+  }
+}
