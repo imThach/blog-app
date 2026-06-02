@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { stripHtml } from '../../utils';
+import { stripHtml } from '../../lib/utils';
 
 export default function CardBlog({ post }) {
     const excerpt = stripHtml(post.content).substring(0, 120) + '...';

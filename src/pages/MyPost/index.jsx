@@ -8,7 +8,7 @@ import useAuthorization from '../../hooks/useAuthorization';
 import DialogConfirm from '../../components/DialogConfirm';
 import LottieReact from 'lottie-react';
 import emptyAnimation from '../../assets/animations/empty-state.json';
-import { stripHtml } from '../../utils';
+import { stripHtml } from '../../lib/utils';
 
 const Lottie = LottieReact.default || LottieReact;
 
