@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { UploadCloud, X, Loader2 } from 'lucide-react';
+import { UploadCloud, X, Loader2, RefreshCw, ArrowLeftRight, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function CloudinaryUpload({ value, onChange }) {
@@ -47,29 +47,41 @@ export default function CloudinaryUpload({ value, onChange }) {
     return (
         <div className="w-full">
             {value ? (
-                <div className="relative rounded-lg overflow-hidden border border-gray-200">
-                    <img src={value} alt="Thumbnail preview" className="w-full h-48 object-cover" />
-                    <button
-                        type="button"
-                        onClick={() => onChange('')}
-                        className="absolute top-2 right-2 p-1 bg-white/90 text-red-500 rounded-full hover:bg-red-50 transition-colors shadow-sm"
-                        title="Xóa ảnh"
-                    >
-                        <X className="w-5 h-5" />
-                    </button>
-                </div>
+                <>
+                    <div className="flex flex-col items-center justify-center w-full py-4 border-2 border-dashed border-[var(--border-color)] rounded-lg bg-[var(--bg-secondary)]">
+                        <label className="flex items-center gap-2 cursor-pointer text-sm text-[var(--text-muted)] hover:text-blue-600 transition mb-4">
+                            <ArrowLeftRight className="w-4 h-4" />
+                            <span>Change image</span>
+                            <input
+                                type="file"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={handleUpload}
+                                disabled={isUploading}
+                            />
+                        </label>
+
+                        {/* Ảnh xem trước (Căn giữa, bo góc) */}
+                        <div className="relative group rounded-xl overflow-hidden shadow-sm border border-[var(--border-color)]">
+                            <img
+                                src={value}
+                                alt="Blog thumbnail"
+                                className="w-[220px] h-[130px] object-cover"
+                            />
+                        </div>
+                    </div>
+                </>
             ) : (
-                <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 hover:border-blue-400 transition-colors">
+                <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-[var(--border-color)] rounded-lg cursor-pointer bg-[var(--bg-secondary)] hover:opacity-80 transition-colors">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         {isUploading ? (
                             <Loader2 className="w-8 h-8 text-blue-500 animate-spin mb-3" />
                         ) : (
-                            <UploadCloud className="w-8 h-8 text-gray-400 mb-3" />
+                            <UploadCloud className="w-8 h-8 text-[var(--text-muted)] mb-3" />
                         )}
-                        <p className="mb-2 text-sm text-gray-500 font-medium">
-                            {isUploading ? 'Đang tải lên...' : 'Nhấn để tải ảnh Thumbnail'}
+                        <p className="mb-2 text-sm text-[var(--text-muted)] font-medium">
+                            {isUploading ? 'Đang tải lên...' : 'Click to upload image'}
                         </p>
-                        <p className="text-xs text-gray-400">PNG, JPG, WEBP (Max: 5MB)</p>
                     </div>
                     <input
                         type="file"

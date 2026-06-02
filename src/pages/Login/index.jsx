@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../components/context/authContext';
-// Tạm dùng icon thay cho logo trong ảnh
-import { Hexagon } from 'lucide-react';
+import logoImg from '../../assets/logo.png';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -29,7 +28,7 @@ export default function Login() {
 
                 {/* Logo */}
                 <div className="flex justify-center mb-8">
-                    <Hexagon className="w-16 h-16 text-blue-800 fill-current" />
+                    <img src={logoImg} alt="Blog Logo" className="h-8 md:h-12 w-auto object-contain" />
                 </div>
 
                 {/* Form */}
@@ -41,7 +40,7 @@ export default function Login() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                     </div>
 
@@ -52,7 +51,7 @@ export default function Login() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            className="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                     </div>
 
@@ -69,7 +68,7 @@ export default function Login() {
                     </button>
                 </form>
 
-                <div className="mt-6 text-center text-sm text-gray-500">
+                <div className="mt-6 text-center text-sm text-[var(--text-muted)] transition-colors">
                     Don't have an account?{' '}
                     <Link to="/signup" className="text-[#5A52F6] hover:underline">
                         Signup

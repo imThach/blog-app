@@ -12,16 +12,33 @@ export const AuthProvider = ({ children }) => {
 
     // Kiểm tra token khi load lại trang
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser && storedUser !== 'undefined') {
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch (error) {
-                console.error("Lỗi khi parse JSON từ localStorage:", error);
-                localStorage.removeItem('user');
+        const initializeAuth = async () => {
+            const token = localStorage.getItem('accessToken');
+            if (token) {
+                try {
+                    const response = await axiosClient.get('/auth/me');
+                    let userData = response.user || response.data || response;
+
+                    if (!userData?.role && token) {
+                        const payload = JSON.parse(atob(token.split('.')[1]));
+                        userData = { ...userData, ...payload };
+                    }
+                    if (userData?.role) {
+                        userData.role = String(userData.role).toLowerCase();
+                    }
+
+                    setUser(userData);
+                    localStorage.setItem('user', JSON.stringify(userData));
+                } catch (error) {
+                    console.error("Lỗi lấy thông tin từ token:", error);
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('user');
+                }
             }
-        }
-        setLoading(false);
+            setLoading(false);
+        };
+
+        initializeAuth();
     }, []);
 
     const login = async (email, password) => {
@@ -30,9 +47,21 @@ export const AuthProvider = ({ children }) => {
 
             // Đề phòng API trả về key khác nhau (VD: token thay vì accessToken, data.user thay vì user)
             const token = response.accessToken || response.token || response.data?.token;
-            const userData = response.user || response.data?.user || response;
+            let userData = response.user || response.data?.user || response;
 
             localStorage.setItem('accessToken', token);
+
+            try {
+                const meRes = await axiosClient.get('/auth/me');
+                userData = meRes.user || meRes.data || meRes;
+            } catch (e) { /* Bỏ qua nếu API lỗi */ }
+
+            if (!userData?.role && token) {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                userData = { ...userData, ...payload };
+            }
+            if (userData?.role) userData.role = String(userData.role).toLowerCase();
+
             localStorage.setItem('user', JSON.stringify(userData));
             setUser(userData);
             toast.success('Đăng nhập thành công!');
@@ -46,9 +75,24 @@ export const AuthProvider = ({ children }) => {
     const register = async (username, email, password) => {
         try {
             const response = await axiosClient.post('/auth/register', { username, email, password });
-            localStorage.setItem('accessToken', response.accessToken);
-            localStorage.setItem('user', JSON.stringify(response.user));
-            setUser(response.user);
+            const token = response.accessToken || response.token || response.data?.token;
+            localStorage.setItem('accessToken', token);
+
+            let userData = response.user || response.data?.user || response;
+            try {
+                const meRes = await axiosClient.get('/auth/me');
+                userData = meRes.user || meRes.data || meRes;
+            } catch (e) { }
+
+            if (!userData?.role && token) {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                userData = { ...userData, ...payload };
+            }
+            if (userData?.role) userData.role = String(userData.role).toLowerCase();
+
+            setUser(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
+
             toast.success('Đăng ký thành công!');
             navigate('/');
         } catch (error) {

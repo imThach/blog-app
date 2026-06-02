@@ -25,7 +25,7 @@ export default function SignUp() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-950 via-blue-700 to-cyan-400 p-4">
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-md p-8">
+            <div className="bg-[var(--bg-main)] border border-[var(--border-color)] rounded-lg shadow-2xl w-full max-w-md p-8 transition-colors">
 
                 <div className="flex justify-center mb-8">
                     <Hexagon className="w-16 h-16 text-blue-800 fill-current" />
@@ -39,7 +39,7 @@ export default function SignUp() {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
-                            className="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                     </div>
 
@@ -50,7 +50,7 @@ export default function SignUp() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                     </div>
 
@@ -61,7 +61,7 @@ export default function SignUp() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            className="w-full px-4 py-3 border border-gray-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
                     </div>
 
@@ -78,7 +78,7 @@ export default function SignUp() {
                     </button>
                 </form>
 
-                <div className="mt-6 text-center text-sm text-gray-500">
+                <div className="mt-6 text-center text-sm text-[var(--text-muted)] transition-colors">
                     Already have an account?{' '}
                     <Link to="/login" className="text-[#5A52F6] hover:underline">
                         Login

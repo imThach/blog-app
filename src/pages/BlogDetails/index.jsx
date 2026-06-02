@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Calendar, User, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axiosClient from '../../components/services/api/axiosClient';
 
 export default function BlogDetails() {
-    // Lấy id từ URL (ví dụ: /post/123 -> id = 123)
     const { id } = useParams();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -30,15 +28,16 @@ export default function BlogDetails() {
     if (loading) {
         return (
             <div className="min-h-[50vh] flex flex-col items-center justify-center space-y-4">
-                <div className="w-5 h-5 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
             </div>
         );
     }
 
+    // Xử lý khi bài viết không tồn tại
     if (!post) {
         return (
-            <div className="text-center py-20 bg-white rounded-xl border border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">Không tìm thấy bài viết</h2>
+            <div className="text-center py-20 bg-[var(--bg-main)] rounded-xl border border-[var(--border-color)] mt-10">
+                <h2 className="text-2xl font-bold text-[var(--text-main)]">Không tìm thấy bài viết</h2>
                 <Link to="/" className="text-blue-600 hover:text-blue-800 font-medium mt-4 inline-block">
                     &larr; Quay lại trang chủ
                 </Link>
@@ -46,37 +45,53 @@ export default function BlogDetails() {
         );
     }
 
-    return (
-        <article className="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-2xl">
-            <div className="flex items-center">
-                <span>{new Date(post.createdAt).toLocaleDateString('vi-VN')}</span>
-            </div>
+    // Format ngày tháng theo chuẩn "Month DD, YYYY" (ví dụ: May 26, 2026)
+    const formattedDate = new Date(post.createdAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 
-            {/* Header bài viết */}
-            <header className="mb-8 space-y-4">
-                <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
+    return (
+        <article className="max-w-4xl mx-auto bg-[var(--bg-main)] py-10 md:py-16 px-4 sm:px-6 lg:px-8">
+
+            {/* Header bài viết (Căn giữa theo ảnh) */}
+            <header className="mb-10 text-center max-w-3xl mx-auto flex flex-col items-center">
+
+                {/* Ngày đăng */}
+                <div className="text-[#5A52F6] text-base font-medium mb-4">
+                    Published on {formattedDate}
+                </div>
+
+                {/* Tiêu đề bài viết */}
+                <h1 className="text-4xl md:text-[44px] leading-[1.2] font-bold text-[var(--text-main)] mb-8">
                     {post.title}
                 </h1>
 
-                <div className="flex items-center gap-6 text-gray-500 text-sm py-4">
-                    <div className="flex items-center gap-2 border border-gray-300 rounded-full px-3 py-1">
-                        <span className="font-medium text-gray-700">{post.author?.username || 'Ẩn danh'}</span>
-                    </div>
+                {/* Tên tác giả (Dạng Badge) */}
+                <div className="inline-flex items-center justify-center px-6 py-1.5 rounded-full border border-[var(--border-color)] text-[#5A52F6] font-medium text-sm">
+                    {post.author?.username || 'Ẩn danh'}
                 </div>
+
             </header>
+
+            {/* Ảnh Cover */}
             {post.image && (
-                <div className="mb-10 rounded-xl overflow-hidden shadow-sm">
+                <div className="mb-12 rounded-t-3xl overflow-hidden">
                     <img
                         src={post.image}
                         alt={post.title}
-                        className="w-full h-auto object-cover max-h-[500px]"
+                        className="w-full h-auto object-cover max-h-[600px]"
                     />
                 </div>
             )}
+
+            {/* Nội dung bài viết */}
             <div
-                className="blog-content text-gray-800 leading-relaxed"
+                className="blog-content text-[var(--text-main)] leading-relaxed max-w-3xl mx-auto text-lg"
                 dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
         </article>
     );
 }
