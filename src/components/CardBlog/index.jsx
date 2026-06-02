@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom';
+import { stripHtml } from '../../utils';
 
 export default function CardBlog({ post }) {
-    const stripHtml = (html) => {
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        return doc.body.textContent || "";
-    };
-
     const excerpt = stripHtml(post.content).substring(0, 120) + '...';
 
     return (
@@ -23,8 +19,8 @@ export default function CardBlog({ post }) {
             <div className="p-5 flex flex-col flex-1">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-3">
-                    {post.tags?.slice(0, 3).map((tag, index) => (
-                        <span key={index} className="px-2.5 py-1 bg-[#5A52F6]/10 text-[#5A52F6] text-xs font-medium rounded-full transition-colors">
+                    {post.tags?.slice(0, 3).map((tag) => (
+                        <span key={tag} className="px-2.5 py-1 bg-[#5A52F6]/10 text-[#5A52F6] text-xs font-medium rounded-full transition-colors">
                             #{tag}
                         </span>
                     ))}

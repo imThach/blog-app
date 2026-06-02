@@ -17,7 +17,7 @@ export default function SignUp() {
         setIsSubmitting(true);
         try {
             await register(username, email, password);
-        } catch (error) {
+        } catch (error) { //Lỗi được xử lý trong context, nên không cần toast ở đây
         } finally {
             setIsSubmitting(false);
         }

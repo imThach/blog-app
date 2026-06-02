@@ -11,11 +11,11 @@ export default function DialogChangeRole({
     const [selectedRole, setSelectedRole] = useState('user');
 
     useEffect(() => {
-        if (userToEdit) {
+        if (isOpen && userToEdit) {
             // Đảm bảo chữ cái đầu được viết hoa (User/Admin) nếu cần, hoặc giữ nguyên value thường
             setSelectedRole(userToEdit.role?.toLowerCase() || 'user');
         }
-    }, [userToEdit]);
+    }, [isOpen, userToEdit]);
 
     if (!isOpen) return null;
 

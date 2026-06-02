@@ -8,6 +8,7 @@ import useAuthorization from '../../hooks/useAuthorization';
 import DialogConfirm from '../../components/DialogConfirm';
 import LottieReact from 'lottie-react';
 import emptyAnimation from '../../assets/animations/empty-state.json';
+import { stripHtml } from '../../utils';
 
 const Lottie = LottieReact.default || LottieReact;
 
@@ -50,11 +51,7 @@ export default function MyPost() {
         };
 
         fetchPosts();
-    }, [user]);
-    const stripHtml = (html) => {
-        if (!html) return "";
-        return html.replace(/<[^>]*>?/gm, '');
-    };
+    }, [user, isAdmin, userId]);
 
     const handleDeleteClick = (post) => {
         setPostToDelete(post);
